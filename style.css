@@ -1,33 +1,64 @@
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial;
+font-family:Inter,Arial;
+
 }
 
 
 body{
 
-background:#050510;
+background:#03030b;
 color:white;
-overflow:hidden;
+overflow-x:hidden;
 
 }
 
 
-.background{
 
-position:absolute;
-width:100%;
-height:100%;
+/* background */
 
-background:
-radial-gradient(circle at top,#273cff,transparent 40%),
-radial-gradient(circle at bottom,#00ffd5,transparent 40%);
+body:before{
 
-filter:blur(80px);
+content:"";
 
-z-index:-1;
+position:fixed;
+
+width:600px;
+height:600px;
+
+background:#00ffe1;
+
+filter:blur(180px);
+
+opacity:.25;
+
+top:-200px;
+left:-200px;
+
+}
+
+
+
+body:after{
+
+content:"";
+
+position:fixed;
+
+width:500px;
+height:500px;
+
+background:#304cff;
+
+filter:blur(170px);
+
+opacity:.3;
+
+right:-200px;
+bottom:-200px;
 
 }
 
@@ -41,7 +72,7 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 
-padding:0 8%;
+padding:0 7%;
 
 }
 
@@ -49,26 +80,28 @@ padding:0 8%;
 
 .logo{
 
-font-size:30px;
-font-weight:bold;
+font-size:28px;
 
-color:#00ffd5;
+font-weight:800;
+
+color:#00ffe1;
 
 }
 
 
 
-.links{
+.nav-links{
 
 display:flex;
+
 gap:35px;
 
 }
 
 
-.links a{
 
-color:white;
+.nav-links a{
+
 opacity:.8;
 
 }
@@ -77,31 +110,36 @@ opacity:.8;
 
 button{
 
-padding:15px 30px;
-
-border-radius:30px;
+cursor:pointer;
 
 border:none;
 
-cursor:pointer;
+border-radius:30px;
+
+padding:15px 30px;
 
 }
 
 
 
-nav button,
-.main-btn{
+.nav-btn,
+.primary{
 
-background:#00ffd5;
+background:#00ffe1;
+
+color:black;
+
+font-weight:bold;
 
 }
+
 
 
 
 
 .hero{
 
-height:80vh;
+min-height:80vh;
 
 display:flex;
 
@@ -109,16 +147,35 @@ align-items:center;
 
 justify-content:space-around;
 
-padding:5%;
+padding:50px 7%;
 
+gap:40px;
 
 }
 
 
 
-.hero-text{
+.hero-content{
 
-width:45%;
+max-width:600px;
+
+}
+
+
+
+.badge{
+
+display:inline-block;
+
+padding:10px 20px;
+
+border-radius:30px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+margin-bottom:20px;
 
 }
 
@@ -126,93 +183,209 @@ width:45%;
 
 h1{
 
-font-size:70px;
+font-size:75px;
 
-line-height:1;
+line-height:1.05;
 
 }
 
 
 
-p{
+.hero p{
 
-font-size:20px;
+font-size:22px;
+
+opacity:.7;
 
 margin:30px 0;
 
-opacity:.8;
-
 }
 
 
 
-.glass-btn{
+.secondary{
 
 background:rgba(255,255,255,.1);
 
 color:white;
 
-backdrop-filter:blur(20px);
+margin-left:15px;
 
 }
 
 
 
-.cube{
+.ai-card{
 
-width:300px;
-height:300px;
+width:380px;
+
+height:450px;
 
 background:
-linear-gradient(135deg,#00ffd5,#273cff);
+
+rgba(255,255,255,.08);
 
 border-radius:40px;
+
+backdrop-filter:blur(30px);
+
+padding:30px;
+
+box-shadow:
+
+0 0 50px #00ffe144;
 
 
 transform:
 
-rotateX(30deg)
-rotateY(40deg);
+rotateY(-15deg);
+
+
+}
+
+
+
+.orb{
+
+width:220px;
+height:220px;
+
+margin:auto;
+
+
+border-radius:50%;
+
+
+background:
+
+radial-gradient(circle,#fff,#00ffe1,#304cff);
 
 
 box-shadow:
 
-0 0 80px #00ffd5;
+0 0 80px #00ffe1;
 
 
-animation:
-
-float 4s infinite alternate;
+animation:pulse 3s infinite;
 
 }
 
 
 
-@keyframes float{
+.card-content{
 
-from{
-
-transform:
-translateY(0)
-rotateX(30deg)
-rotateY(40deg);
-
-}
-
-to{
-
-transform:
-translateY(-40px)
-rotateX(60deg)
-rotateY(80deg);
-
-}
+margin-top:30px;
 
 }
 
 
 
-@media(max-width:800px){
+.status{
+
+margin-top:20px;
+
+color:#00ffe1;
+
+}
+
+
+
+
+
+.services{
+
+padding:80px 7%;
+
+}
+
+
+
+.services h2{
+
+font-size:45px;
+
+margin-bottom:40px;
+
+}
+
+
+
+.cards{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+gap:25px;
+
+}
+
+
+
+.card{
+
+background:
+
+rgba(255,255,255,.07);
+
+padding:40px;
+
+border-radius:30px;
+
+backdrop-filter:blur(20px);
+
+transition:.3s;
+
+}
+
+
+
+.card:hover{
+
+transform:translateY(-15px);
+
+box-shadow:
+
+0 20px 60px #00ffe133;
+
+}
+
+
+
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+
+50%{
+
+transform:scale(1.1);
+
+}
+
+
+100%{
+
+transform:scale(1);
+
+}
+
+
+}
+
+
+
+
+
+@media(max-width:900px){
+
 
 .hero{
 
@@ -220,12 +393,6 @@ flex-direction:column;
 
 }
 
-
-.hero-text{
-
-width:90%;
-
-}
 
 
 h1{
@@ -235,10 +402,20 @@ font-size:45px;
 }
 
 
-.links{
+.cards{
+
+grid-template-columns:1fr;
+
+}
+
+
+
+.nav-links{
 
 display:none;
 
 }
+
+
 
 }
