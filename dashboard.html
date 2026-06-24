@@ -27,32 +27,22 @@
 
 <div class="menu">
 
-<p>⌂ Home</p>
-
-<p>◎ AI Chat</p>
-
-<p>⬡ Models</p>
-
-<p>◉ Wallet</p>
-
-<div class="menu">
-
-<a href="dashboard.html">
+<a href="dashboard.html" class="active">
 <p>⌂ Home</p>
 </a>
 
 
-<a href="dashboard.html">
+<a href="#chat">
 <p>◎ AI Chat</p>
 </a>
 
 
-<a href="dashboard.html">
+<a href="#models">
 <p>⬡ Models</p>
 </a>
 
 
-<a href="dashboard.html">
+<a href="#wallet">
 <p>◉ Wallet</p>
 </a>
 
@@ -61,8 +51,6 @@
 <p>⚙ Account</p>
 </a>
 
-
-</div>
 
 </div>
 
@@ -125,7 +113,7 @@ GPT-X Private
 
 <!-- WALLET AREA -->
 
-<section class="wallet-section">
+<section class="wallet-section" id="wallet">
 
 
 <div class="wallet-card">
@@ -145,7 +133,7 @@ Secure payment balance
 </p>
 
 
-<button>
+<button id="connect-wallet-btn">
 Connect Wallet
 </button>
 
@@ -182,7 +170,7 @@ Zero tracking system
 
 <!-- AI MARKET -->
 
-<section class="market">
+<section class="market" id="models">
 
 
 <h2>
@@ -205,7 +193,7 @@ Quantum AI
 Advanced reasoning engine
 </p>
 
-<button>
+<button class="use-model-btn" data-model="Quantum AI">
 Use
 </button>
 
@@ -224,7 +212,7 @@ Code AI
 Programming assistant
 </p>
 
-<button>
+<button class="use-model-btn" data-model="Code AI">
 Use
 </button>
 
@@ -244,7 +232,7 @@ Research AI
 Knowledge analyzer
 </p>
 
-<button>
+<button class="use-model-btn" data-model="Research AI">
 Use
 </button>
 
@@ -258,8 +246,7 @@ Use
 </section>
 
 
-<section class="chat">
-
+<section class="chat" id="chat">
 
 <div class="message ai">
 
@@ -281,18 +268,19 @@ Build my crypto app
 
 
 
-
 <footer>
 
 
 <input
-
+type="text"
+id="chat-input"
+name="chat-input"
 placeholder="Ask private AI..."
-
+autocomplete="off"
 >
 
 
-<button>
+<button id="send-btn">
 
 Send
 

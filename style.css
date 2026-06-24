@@ -66,6 +66,8 @@ bottom:-200px;
 
 nav{
 
+position:relative;
+
 height:90px;
 
 display:flex;
@@ -419,6 +421,61 @@ display:none;
 
 
 }
+
+
+/* MOBILE NAV TOGGLE */
+
+.nav-toggle{
+
+display:none;
+
+background:rgba(255,255,255,.1);
+
+color:white;
+
+font-size:22px;
+
+padding:10px 16px;
+
+}
+
+
+@media(max-width:900px){
+
+.nav-toggle{
+
+display:block;
+
+}
+
+}
+
+
+.nav-links.open{
+
+display:flex;
+
+flex-direction:column;
+
+position:absolute;
+
+top:90px;
+
+left:0;
+
+right:0;
+
+background:#03030b;
+
+padding:25px 7%;
+
+gap:20px;
+
+z-index:50;
+
+border-bottom:1px solid rgba(255,255,255,.1);
+
+}
 /* DASHBOARD */
 
 
@@ -594,7 +651,7 @@ margin-left:auto;
 
 
 
-footer{
+.main-panel footer{
 
 margin-top:25px;
 
@@ -606,7 +663,7 @@ gap:15px;
 
 
 
-footer input{
+.main-panel footer input{
 
 flex:1;
 
@@ -626,7 +683,7 @@ color:white;
 
 
 
-footer button{
+.main-panel footer button{
 
 background:#00ffe1;
 
@@ -994,13 +1051,15 @@ color:white;
 
 .login-page{
 
-height:100vh;
+min-height:calc(100vh - 90px);
 
 display:flex;
 
 align-items:center;
 
 justify-content:center;
+
+padding:40px 20px;
 
 }
 
