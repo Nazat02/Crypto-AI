@@ -1,25 +1,34 @@
-const orb =
-document.querySelector(".orb");
+const cards =
+document.querySelectorAll(".card");
 
 
-document.addEventListener(
+cards.forEach(card=>{
+
+
+card.addEventListener(
 "mousemove",
 (e)=>{
 
 
-let x =
-(e.clientX / window.innerWidth - .5)*30;
+const rect =
+card.getBoundingClientRect();
 
 
-let y =
-(e.clientY / window.innerHeight - .5)*30;
+const x =
+e.clientX - rect.left;
 
 
-document.querySelector(".ai-card")
-.style.transform =
+const y =
+e.clientY - rect.top;
+
+
+
+card.style.transform =
 `
-rotateY(${x}deg)
-rotateX(${-y}deg)
+perspective(600px)
+rotateX(${-(y-rect.height/2)/15}deg)
+rotateY(${(x-rect.width/2)/15}deg)
+scale(1.05)
 `;
 
 
@@ -27,6 +36,24 @@ rotateX(${-y}deg)
 });
 
 
+
+card.addEventListener(
+"mouseleave",
+()=>{
+
+
+card.style.transform =
+"";
+
+
+});
+
+
+});
+
+
+
+
 console.log(
-"CryptoAI system online"
+"CryptoAI 3D engine active"
 );
