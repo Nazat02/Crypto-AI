@@ -1,175 +1,208 @@
-/* ---------- 3D tilt effect ---------- */
-/* Covers every card-style element across both pages, not just .card */
-const tiltSelectors = [
-  ".card",
-  ".model-card",
-  ".wallet-card",
-  ".price-card",
-  ".security-card"
-];
+console.log("CryptoAI Loaded");
 
-const tiltElements = document.querySelectorAll(tiltSelectors.join(","));
+/* ==========================
+   Navbar Shadow on Scroll
+========================== */
 
-tiltElements.forEach(card => {
+const navbar = document.querySelector(".navbar");
 
-  card.addEventListener("mousemove", (e) => {
+window.addEventListener("scroll", () => {
 
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    if (window.scrollY > 50) {
 
-    card.style.transform = `
-      perspective(600px)
-      rotateX(${-(y - rect.height / 2) / 15}deg)
-      rotateY(${(x - rect.width / 2) / 15}deg)
-      scale(1.05)
-    `;
-  });
+        navbar.style.boxShadow =
+            "0 10px 30px rgba(0,0,0,0.35)";
 
-  card.addEventListener("mouseleave", () => {
-    card.style.transform = "";
-  });
+    } else {
+
+        navbar.style.boxShadow = "none";
+
+    }
 
 });
 
+/* ==========================
+   Reveal Elements on Scroll
+========================== */
 
-/* ---------- Loader cleanup ---------- */
-/* The loader fades out via CSS, but stays in the DOM forever unless removed.
-   Once the animation ends, detach it so it can't block clicks or tab order. */
-const loader = document.querySelector(".loader");
+const revealElements = document.querySelectorAll(
+    ".feature-card, .stat-box, .price-card, .testimonial-card, .trust-box"
+);
 
-if (loader) {
-  loader.addEventListener("animationend", () => {
-    loader.remove();
-  });
+const observer = new IntersectionObserver(
 
-  // Fallback in case animationend doesn't fire (e.g. reduced-motion settings)
-  setTimeout(() => {
-    if (loader.isConnected) loader.remove();
-  }, 2500);
-}
+(entries) => {
 
+    entries.forEach(entry => {
 
-/* ---------- Dashboard: Connect Wallet ---------- */
-const connectWalletBtn = document.getElementById("connect-wallet-btn");
+        if (entry.isIntersecting) {
 
-if (connectWalletBtn) {
-  connectWalletBtn.addEventListener("click", () => {
-    if (typeof window.ethereum === "undefined") {
-      alert("No crypto wallet extension detected. Install one (e.g. MetaMask) to connect.");
-      return;
-    }
+            entry.target.style.opacity = "1";
 
-    connectWalletBtn.textContent = "Connecting...";
-    connectWalletBtn.disabled = true;
+            entry.target.style.transform =
+                "translateY(0)";
 
-    window.ethereum.request({ method: "eth_requestAccounts" })
-      .then(accounts => {
-        const address = accounts[0];
-        const short = `${address.slice(0, 6)}...${address.slice(-4)}`;
-        connectWalletBtn.textContent = `Connected: ${short}`;
-      })
-      .catch(() => {
-        connectWalletBtn.textContent = "Connect Wallet";
-        connectWalletBtn.disabled = false;
-      });
-  });
-}
+        }
 
-
-/* ---------- Dashboard: AI model "Use" buttons ---------- */
-const modelButtons = document.querySelectorAll(".use-model-btn");
-
-modelButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const modelName = btn.dataset.model || "this model";
-    const modelLabel = document.querySelector(".model");
-
-    if (modelLabel) {
-      modelLabel.textContent = modelName;
-    }
-
-    const chat = document.getElementById("chat");
-    if (chat) {
-      chat.scrollIntoView({ behavior: "smooth" });
-    }
-  });
-});
-
-
-/* ---------- Dashboard: chat send ---------- */
-const chatInput = document.getElementById("chat-input");
-const sendBtn = document.getElementById("send-btn");
-const chatLog = document.getElementById("chat");
-
-function sendChatMessage() {
-  if (!chatInput || !chatLog) return;
-
-  const text = chatInput.value.trim();
-  if (!text) return;
-
-  const userMsg = document.createElement("div");
-  userMsg.className = "message user";
-  userMsg.textContent = text;
-  chatLog.appendChild(userMsg);
-
-  chatInput.value = "";
-  chatLog.scrollTop = chatLog.scrollHeight;
-
-  // Placeholder response so the flow feels complete without a backend
-  setTimeout(() => {
-    const aiMsg = document.createElement("div");
-    aiMsg.className = "message ai";
-    aiMsg.textContent = "Got it. (Connect a model backend to enable real responses.)";
-    chatLog.appendChild(aiMsg);
-    chatLog.scrollTop = chatLog.scrollHeight;
-  }, 400);
-}
-
-if (sendBtn) {
-  sendBtn.addEventListener("click", sendChatMessage);
-}
-
-if (chatInput) {
-  chatInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      sendChatMessage();
-    }
-  });
-}
-
-
-/* ---------- Login page: form submit ---------- */
-const loginForm = document.getElementById("login-form");
-
-if (loginForm) {
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    // Placeholder auth flow — wire up to a real backend before going live.
-    window.location.href = "dashboard.html";
-  });
-}
-
-
-/* ---------- Mobile nav toggle ---------- */
-const navToggle = document.getElementById("nav-toggle");
-const navLinks = document.querySelector(".nav-links");
-
-if (navToggle && navLinks) {
-  navToggle.addEventListener("click", () => {
-    const isOpen = navLinks.classList.toggle("open");
-    navToggle.setAttribute("aria-expanded", isOpen);
-  });
-
-  // Close the menu after picking a link
-  navLinks.querySelectorAll("a").forEach(link => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("open");
-      navToggle.setAttribute("aria-expanded", "false");
     });
-  });
+
+},
+
+{
+    threshold: 0.15
 }
 
+);
 
-console.log("CryptoAI engine active");
+revealElements.forEach(el => {
+
+    el.style.opacity = "0";
+
+    el.style.transform =
+        "translateY(40px)";
+
+    el.style.transition =
+        "all 0.8s ease";
+
+    observer.observe(el);
+
+});
+
+/* ==========================
+   Counter Animation
+========================== */
+
+const statNumbers =
+document.querySelectorAll(".stat-box h3");
+
+statNumbers.forEach(stat => {
+
+    const text = stat.innerText;
+
+    const number =
+    parseInt(text.replace(/\D/g, ""));
+
+    if (!number) return;
+
+    let current = 0;
+
+    const speed =
+    Math.max(10, Math.floor(number / 100));
+
+    const updateCounter = () => {
+
+        current += speed;
+
+        if (current >= number) {
+
+            stat.innerText = text;
+
+            return;
+
+        }
+
+        if (text.includes("%")) {
+
+            stat.innerText = current + "%";
+
+        } else if (text.includes("+")) {
+
+            stat.innerText = current + "+";
+
+        } else {
+
+            stat.innerText = current;
+
+        }
+
+        requestAnimationFrame(updateCounter);
+
+    };
+
+    const counterObserver =
+    new IntersectionObserver(
+
+    (entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                updateCounter();
+
+                counterObserver.disconnect();
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold: 0.4
+    }
+
+    );
+
+    counterObserver.observe(stat);
+
+});
+
+/* ==========================
+   Pricing Button Demo
+========================== */
+
+const planButtons =
+document.querySelectorAll(".price-card button");
+
+planButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        alert(
+            "Payment integration will be connected later."
+        );
+
+    });
+
+});
+
+/* ==========================
+   Hero Button Demo
+========================== */
+
+const heroButton =
+document.querySelector(".hero-btn");
+
+if (heroButton) {
+
+    heroButton.addEventListener("click", () => {
+
+        document
+        .querySelector("#pricing")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+    });
+
+}
+
+/* ==========================
+   Footer Year Auto Update
+========================== */
+
+const footerText =
+document.querySelector("footer p");
+
+if (footerText) {
+
+    const year =
+    new Date().getFullYear();
+
+    footerText.innerHTML =
+        `© ${year} CryptoAI. All rights reserved.`;
+
+}
+
+console.log("All systems ready.");
