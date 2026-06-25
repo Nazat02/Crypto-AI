@@ -80,14 +80,14 @@ statNumbers.forEach(stat => {
     const text = stat.innerText;
 
     const number =
-    parseInt(text.replace(/\D/g, ""));
+    parseFloat(text.replace(/[^0-9.]/g, ""));
 
-    if (!number) return;
+    if (!number && number !== 0) return;
 
     let current = 0;
 
     const speed =
-    Math.max(10, Math.floor(number / 100));
+    Math.max(number / 100, 0.5);
 
     const updateCounter = () => {
 
@@ -103,15 +103,15 @@ statNumbers.forEach(stat => {
 
         if (text.includes("%")) {
 
-            stat.innerText = current + "%";
+            stat.innerText = current.toFixed(1) + "%";
 
         } else if (text.includes("+")) {
 
-            stat.innerText = current + "+";
+            stat.innerText = Math.floor(current) + "+";
 
         } else {
 
-            stat.innerText = current;
+            stat.innerText = Math.floor(current);
 
         }
 
