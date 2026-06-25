@@ -1,10 +1,37 @@
 console.log("CryptoAI Loaded");
 
 /* ==========================
-   Navbar Shadow on Scroll
+   Sync Hero Padding to Navbar Height
 ========================== */
 
 const navbar = document.querySelector(".navbar");
+
+const syncNavbarHeight = () => {
+
+    if (!navbar) return;
+
+    const height = navbar.offsetHeight;
+    const top = parseFloat(getComputedStyle(navbar).top) || 0;
+
+    document.documentElement.style.setProperty(
+        "--navbar-height",
+        `${height + top}px`
+    );
+
+};
+
+syncNavbarHeight();
+
+window.addEventListener("resize", syncNavbarHeight);
+window.addEventListener("orientationchange", syncNavbarHeight);
+
+if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncNavbarHeight);
+}
+
+/* ==========================
+   Navbar Shadow on Scroll
+========================== */
 
 window.addEventListener("scroll", () => {
 
@@ -78,6 +105,9 @@ document.querySelectorAll(".stat-box h3");
 statNumbers.forEach(stat => {
 
     const text = stat.innerText;
+
+    // Skip values like "24/7" that aren't meant to be counted up
+    if (text.includes("/")) return;
 
     const number =
     parseFloat(text.replace(/[^0-9.]/g, ""));
