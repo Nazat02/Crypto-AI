@@ -258,6 +258,7 @@ body{
 
 section{
     padding:100px 8%;
+    scroll-margin-top:calc(var(--navbar-height, 100px) + 20px);
 }
 
 section h2{
@@ -480,7 +481,7 @@ footer p{
         flex-direction:column;
         text-align:center;
         min-height:auto;
-        padding:160px 8% 80px;
+        padding:calc(var(--navbar-height, 100px) + 40px) 8% 80px;
     }
 
     .feature-grid,
@@ -534,7 +535,7 @@ footer p{
 
     .hero{
         min-height:auto;
-        padding:160px 6% 60px;
+        padding:calc(var(--navbar-height, 140px) + 30px) 6% 60px;
         gap:40px;
     }
 

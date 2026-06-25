@@ -35,6 +35,8 @@ if (document.fonts && document.fonts.ready) {
 
 window.addEventListener("scroll", () => {
 
+    if (!navbar) return;
+
     if (window.scrollY > 50) {
 
         navbar.style.boxShadow =
