@@ -1,4 +1,4 @@
-console.log("CryptoAI loaded.");
+console.log("CryptoAI Loaded");
 
 /* ==========================
    Navbar Shadow on Scroll
@@ -7,124 +7,202 @@ console.log("CryptoAI loaded.");
 const navbar = document.querySelector(".navbar");
 
 window.addEventListener("scroll", () => {
+
     if (window.scrollY > 50) {
-        navbar.style.boxShadow = "0 8px 40px rgba(0,0,0,0.4)";
-        navbar.style.borderColor = "rgba(124,58,237,0.3)";
+
+        navbar.style.boxShadow =
+            "0 10px 30px rgba(0,0,0,0.35)";
+
     } else {
+
         navbar.style.boxShadow = "none";
-        navbar.style.borderColor = "rgba(124,58,237,0.18)";
+
     }
+
 });
 
 /* ==========================
-   Scroll Reveal
+   Reveal Elements on Scroll
 ========================== */
 
-const revealEls = document.querySelectorAll(".reveal");
-
-const revealObserver = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((entry, i) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add("visible");
-                }, i * 80);
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    },
-    { threshold: 0.12 }
+const revealElements = document.querySelectorAll(
+    ".feature-card, .stat-box, .price-card, .testimonial-card, .trust-box"
 );
 
-revealEls.forEach(el => revealObserver.observe(el));
+const observer = new IntersectionObserver(
+
+(entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.style.opacity = "1";
+
+            entry.target.style.transform =
+                "translateY(0)";
+
+        }
+
+    });
+
+},
+
+{
+    threshold: 0.15
+}
+
+);
+
+revealElements.forEach(el => {
+
+    el.style.opacity = "0";
+
+    el.style.transform =
+        "translateY(40px)";
+
+    el.style.transition =
+        "all 0.8s ease";
+
+    observer.observe(el);
+
+});
 
 /* ==========================
    Counter Animation
 ========================== */
 
-const statBoxes = document.querySelectorAll(".stat-box");
+const statNumbers =
+document.querySelectorAll(".stat-box h3");
 
-statBoxes.forEach(box => {
-    const heading = box.querySelector("h3");
-    if (!heading) return;
+statNumbers.forEach(stat => {
 
-    const text = heading.innerText;
-    const number = parseInt(text.replace(/\D/g, ""));
+    const text = stat.innerText;
+
+    const number =
+    parseInt(text.replace(/\D/g, ""));
+
     if (!number) return;
 
-    let started = false;
+    let current = 0;
 
-    const counterObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !started) {
-                    started = true;
-                    let current = 0;
-                    const duration = 1200;
-                    const start = performance.now();
+    const speed =
+    Math.max(10, Math.floor(number / 100));
 
-                    const animate = (now) => {
-                        const elapsed = now - start;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 3);
-                        current = Math.floor(eased * number);
+    const updateCounter = () => {
 
-                        if (text.includes("%")) {
-                            heading.innerText = current + "%";
-                        } else if (text.includes("+")) {
-                            heading.innerText = current + "+";
-                        } else {
-                            heading.innerText = current;
-                        }
+        current += speed;
 
-                        if (progress < 1) {
-                            requestAnimationFrame(animate);
-                        } else {
-                            heading.innerText = text;
-                        }
-                    };
+        if (current >= number) {
 
-                    requestAnimationFrame(animate);
-                    counterObserver.disconnect();
-                }
-            });
-        },
-        { threshold: 0.4 }
+            stat.innerText = text;
+
+            return;
+
+        }
+
+        if (text.includes("%")) {
+
+            stat.innerText = current + "%";
+
+        } else if (text.includes("+")) {
+
+            stat.innerText = current + "+";
+
+        } else {
+
+            stat.innerText = current;
+
+        }
+
+        requestAnimationFrame(updateCounter);
+
+    };
+
+    const counterObserver =
+    new IntersectionObserver(
+
+    (entries) => {
+
+        entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+                updateCounter();
+
+                counterObserver.disconnect();
+
+            }
+
+        });
+
+    },
+
+    {
+        threshold: 0.4
+    }
+
     );
 
-    counterObserver.observe(box);
+    counterObserver.observe(stat);
+
 });
 
 /* ==========================
-   Pricing Buttons
+   Pricing Button Demo
 ========================== */
 
-const planButtons = document.querySelectorAll(".price-card button");
+const planButtons =
+document.querySelectorAll(".price-card button");
 
 planButtons.forEach(button => {
+
     button.addEventListener("click", () => {
-        alert("Payment integration coming soon.");
+
+        alert(
+            "Payment integration will be connected later."
+        );
+
     });
+
 });
 
 /* ==========================
-   Hero CTA → Pricing
+   Hero Button Demo
 ========================== */
 
-const heroBtn = document.querySelector(".hero-btn");
-if (heroBtn) {
-    heroBtn.addEventListener("click", () => {
-        document.querySelector("#pricing").scrollIntoView({ behavior: "smooth" });
+const heroButton =
+document.querySelector(".hero-btn");
+
+if (heroButton) {
+
+    heroButton.addEventListener("click", () => {
+
+        document
+        .querySelector("#pricing")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
     });
+
 }
 
 /* ==========================
-   Footer Year
+   Footer Year Auto Update
 ========================== */
 
-const footerP = document.querySelector("footer p");
-if (footerP) {
-    footerP.innerHTML = `© ${new Date().getFullYear()} CryptoAI. All rights reserved.`;
+const footerText =
+document.querySelector("footer p");
+
+if (footerText) {
+
+    const year =
+    new Date().getFullYear();
+
+    footerText.innerHTML =
+        `© ${year} CryptoAI. All rights reserved.`;
+
 }
 
 console.log("All systems ready.");
